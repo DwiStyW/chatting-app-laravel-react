@@ -2,16 +2,39 @@ import InfoSideBar from "./InfoSideBar";
 import Search from '@/Components/Search';
 import * as moment from "moment/moment";
 import { Link, useForm  } from "@inertiajs/react";
-import chattingMessages from "./ChatMessage";
+import axios from "axios";
+import MyComponent from "./ChatMessage";
+import { useState, useEffect } from 'react';
+// import { chattingMessages } from "@/Pages/Chat/Chatting";
+const ChatRoom=(receiverId)=> {
+    let data=[];
+    useEffect(() => {
+        const userID=receiverId.user_id;
+        if(userID!=undefined){
+            axios.get(`https://jsonplaceholder.typicode.com/users/${userID}`)
+            .then(res => {
+                const messages = res.data;
+                console.log(messages);
+            })
+            .catch(function (error) {
+                console.log(error.toJSON());
+            });
+        }
+    });
 
+}
+
+export {ChatRoom}
 export default function SideBar({ recentMessages,auth }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         search: '',
     });
-    console.log(recentMessages);
+
+    const [receiverId,setReceiverid]=useState('undefined');
+    ChatRoom(receiverId);
+
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.value);
-        console.log(event.target.value);
         localStorage.setItem("message",event.target.value);
     };
 
@@ -63,7 +86,7 @@ export default function SideBar({ recentMessages,auth }) {
                 {recentMessages.map((user, index) => (
                     <button
                         // href={`/chat/${user.user_id}`}
-                        onClick={()=>chattingMessages(user)}
+                        onClick={()=>setReceiverid(user)}
                         key={index}
                         className="flex px-5 py-3 relative w-full transition hover:cursor-pointer hover:bg-zinc-700 border-b border-zinc-700"
                     >
@@ -98,6 +121,7 @@ export default function SideBar({ recentMessages,auth }) {
                     </button>
                 ))}
             </div>
+            <ChatRoom/>
         </div>
     );
 }

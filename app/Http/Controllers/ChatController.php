@@ -35,6 +35,10 @@ class ChatController extends Controller
         ]);
     }
 
+    public function messages(Request $request,$receiverId){
+         $messages = empty($receiverId) ? [] : $this->chat->getUserMessages((int) $request->user()->id, (int) $receiverId);
+         return json_decode($messages);
+    }
     /**
      * Chat store
      *

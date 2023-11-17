@@ -1,7 +1,7 @@
 import { Link } from "@inertiajs/react";
 
 export default function InfoSideBar({auth }) {
-    console.log(auth.user?.avatar);
+    // console.log(auth.user?.avatar);
     return (
         <div className="flex justify-between bg-zinc-700">
             <div className="p-4">

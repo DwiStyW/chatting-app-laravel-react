@@ -1,7 +1,10 @@
 import SideBar from "@/Components/Chat/SideBar";
+import ChatRoom from "@/Components/Chat/SideBar";
 // import ChatUserInfo from "@/Components/Chat/ChatUserInfo";
-import { useEffect } from "react";
+import axios from 'axios';
 import { Head } from '@inertiajs/react';
+import MyComponent from "@/Components/Chat/ChatMessage";
+import { useState, useEffect } from 'react';
 
 export default function Chatting(props) {
     const { auth, errors, recentMessages, messages } = props;
@@ -15,6 +18,7 @@ export default function Chatting(props) {
                     </div>
 
                     <div className="lg:basis-4/6 lg:block hidden relative">
+                        {/* <ChatRoom/> */}
                         <div id="message">
                             <div className="flex">
                                 <img className="object-cover h-screen w-full" src={'/assets/Wallpaper/wallpaper2.jpg'} alt=""/>
