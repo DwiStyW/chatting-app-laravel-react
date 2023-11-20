@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/chat',[ChatController::class, 'index'])->name('chat.index');
     Route::get('/chat/{receiver_id}',[ChatController::class, 'messages'])->name('chat.message');
+    Route::post('/chat/store/{receiverId?}', [ChatController::class, 'store'])->name('store');
 });
 
 require __DIR__.'/auth.php';

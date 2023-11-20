@@ -46,9 +46,9 @@ class ChatController extends Controller
      */
     public function store(Request $request, ?int $receiverId = null)
     {
-        $request->validate([
-            'message' => 'required|string',
-        ]);
+        // $request->validate([
+        //     'message' => 'required|string',
+        // ]);
 
         if (empty($receiverId)) {
             return;
@@ -59,13 +59,16 @@ class ChatController extends Controller
                 'sender_id' => (int) $request->user()->id,
                 'receiver_id' => $receiverId,
                 'message' => $request->message,
+                'data' => '',
             ]);
 
             event(new MessageSent($message));
 
-            return Redirect::route('chat.index', $receiverId);
+            $messages = empty($receiverId) ? [] : $this->chat->getUserMessages((int) $request->user()->id, (int) $receiverId);
+            return json_decode($messages);
         } catch (\Throwable $th) {
-            return Redirect::route('chat.index', $receiverId);
+            $messages = empty($receiverId) ? [] : $this->chat->getUserMessages((int) $request->user()->id, (int) $receiverId);
+            return $th;
         }
     }
 }
